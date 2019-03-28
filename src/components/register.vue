@@ -40,7 +40,8 @@ export default {
                 var res = response.data,
                     len = res.data.length,
                     userNameArr= [],
-                    passWordArr= [];
+                    passWordArr= [],
+                    ses= window.sessionStorage;
                 for(var i=0; i<len; i++){
                     userNameArr.push(res.data[i].userName);
                     passWordArr.push(res.data[i].userPsw);
@@ -51,12 +52,8 @@ export default {
                 }else if(userNameArr.indexOf(this.username) !== -1){
                     alert('账号已存在！');
                 }else{
-                    res.data.push({
-                        userName:this.username,
-                        userPsw:this.psw,
-                        name:this.name
-                    });
-                    console.log(res.data);
+                    ses.setItem('userName',this.username);
+                    ses.setItem('userPsw',this.psw);
                     alert('success')
                     this.$router.push('/');
                 }
@@ -67,7 +64,7 @@ export default {
 </script>
 <style>
 .box{
-    width: 500px;
+    width: 400px;
     height: 300px;
     border: 1px solid #000;
     position: absolute;

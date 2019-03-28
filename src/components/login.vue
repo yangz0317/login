@@ -28,6 +28,11 @@ export default {
             err_flag:false
             } 
     },
+    mounted(){
+        var userName = sessionStorage.getItem('userName'),
+            userPsw = sessionStorage.getItem('userPsw');
+        console.log(userName,userPsw);
+    },
     methods:{
         login(){
             if(this.username==''||this.psw==''){
@@ -67,7 +72,7 @@ export default {
 </script>
 <style>
 .box{
-    width: 500px;
+    width: 400px;
     height: 300px;
     border: 1px solid #000;
     position: absolute;
