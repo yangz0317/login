@@ -32,9 +32,6 @@ export default {
     },
     methods:{
        register(){
-           if(this.username==''||this.psw==''||this.name==''){
-                this.err_flag=true
-            }
            axios.post('https://www.easy-mock.com/mock/5c9b892c654f582502058b00/example/register',{
                 userName:this.username,
                 userPsw:this.psw,
@@ -49,7 +46,9 @@ export default {
                     passWordArr.push(res.data[i].userPsw);
                 }
                 // console.log(userNameArr, passWordArr);
-                if(userNameArr.indexOf(this.username) !== -1){
+                if(this.username==''||this.psw==''||this.name==''){
+                    this.err_flag=true
+                }else if(userNameArr.indexOf(this.username) !== -1){
                     alert('账号已存在！');
                 }else{
                     res.data.push({
@@ -58,7 +57,7 @@ export default {
                         name:this.name
                     });
                     console.log(res.data);
-                    alert('register success');
+                    alert('success')
                     this.$router.push('/');
                 }
            })
