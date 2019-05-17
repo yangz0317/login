@@ -25,6 +25,7 @@
                 <input type="checkbox" name="hobby" value="basketball">篮球
             </div>
           <input type="button" value="保存" >
+          
     </div>
 </template>
 export default {

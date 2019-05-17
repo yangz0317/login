@@ -17,7 +17,7 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
+import axios from '../request/http.js'
 export default {
     name: 'login',
     data(){
@@ -25,47 +25,27 @@ export default {
             username:'',
             psw:'',
             err_tip:'账号密码不能为空',
-            err_flag:false
+            err_flag:false,
             } 
-    },
-    mounted(){
-        var userName = sessionStorage.getItem('userName'),
-            userPsw = sessionStorage.getItem('userPsw');
-        console.log(userName,userPsw);
     },
     methods:{
         login(){
             if(this.username==''||this.psw==''){
-                this.err_flag=true
-            }
-            axios.post('https://www.easy-mock.com/mock/5c9b892c654f582502058b00/example/login',{
+                this.err_flag=true;
+            }else{
+                axios.post('https://www.easy-mock.com/mock/5c9b892c654f582502058b00/example/login',{
                 userName:this.username,
                 userPsw:this.psw
             }).then((response)=>{
-                var res = response.data,
-                    len = res.data.length,
-                    userNameArr= [],
-                    passWordArr= [],
-                    ses= window.sessionStorage;
-                    // 拿到username
-                    for(var i=0; i<len; i++){
-                        userNameArr.push(res.data[i].userName);
-                        passWordArr.push(res.data[i].userPsw);
-                    }
-                    // console.log(userNameArr, passWordArr);
-                    if(userNameArr.indexOf(this.username) === -1){
-                        alert('账号不存在！');
-                    }else{
-                        var index = userNameArr.indexOf(this.username);
-                        console.log(index);
-                        if(passWordArr[index] === this.psw){
-                            ses.setItem('data', res.data[index].token);
-                            this.$router.push('/update');
-                        }else{
-                            alert('密码错误')
-                        }
-                    }
-            })           
+                console.log(response.data);
+                this.$store.commit('SET_TOKEN',response.data.data[0].token)
+                if (this.$store.state.token) {
+                    this.$router.push('/admin')
+                } else {
+                    this.$router.replace('/login');
+                }
+            })  
+            }         
         }
     }
 }
